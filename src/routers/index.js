@@ -16,9 +16,20 @@ const routes = [
         component: () => import('@admin/Ecommerce.vue'),
       },
       {
-        path: 'posts', // /admin
-        name: 'posts',
-        component: () => import('@admin/Posts/AllPost.vue'),
+        path: 'orders', // /orders
+        name: 'orders',
+        //component: () => import('@admin/Posts/AllPost.vue'),
+        component:()=>import('@admin/Orders/Orders.vue')
+      },
+      {
+      path: 'tables', // /All Tables
+      name: 'tables',
+      component:()=>import('@admin/Tables/Table.vue')
+      },
+      {
+      path: 'tables/create', // Create Tables
+      name: 'add-tables',
+      component:()=>import('@admin/Tables/AddTable.vue')
       },
       {
         path: 'posts/add', // /admin

@@ -250,13 +250,29 @@ const menuGroups = [
       },
       {
         icon: CalenderIcon,
-        name: "Posts",
+        name: "Order Management",
         subItems: [
-          { name: "All Posts", path: "/admin/posts", pro: false },
-          { name: "Create Post", path: "posts/add", pro: false }
+          { name: "All Orders", path: "/admin/orders", pro: false },
+          { name: "Create Orders", path: "order/create", pro: false }
         ],
       },
       {
+        icon: ListIcon,
+        name: "Table Management",
+        subItems: [
+        { name: "All Table", path: "/admin/tables", pro: false },
+        { name: "Create Table", path: "/admin/tables/create", pro: false }
+        ],
+        },
+        {
+        icon: ListIcon,
+        name: "Menu",
+        subItems: [
+        { name: "All Menu", path: "/admin/menus", pro: false },
+        { name: "Create Menu", path: "/admin/menu/create", pro: false }
+        ],
+        },
+        {
         icon: ListIcon,
         name: "Setting",
         subItems: [
