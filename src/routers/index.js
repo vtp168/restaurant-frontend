@@ -1,7 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import AdminLayout from '@/layouts/AdminLayout.vue';
-import { useAuthStore } from '@/stores/auth'; // Import the store
-
+import { createRouter, createWebHistory } from 'vue-router'
+import AdminLayout from '@/layouts/AdminLayout.vue'
+import { useAuthStore } from '@/stores/auth' // Import the store
 
 const routes = [
   {
@@ -19,17 +18,22 @@ const routes = [
         path: 'orders', // /orders
         name: 'orders',
         //component: () => import('@admin/Posts/AllPost.vue'),
-        component:()=>import('@admin/Orders/Orders.vue')
+        component: () => import('@admin/Orders/Orders.vue'),
       },
       {
-      path: 'tables', // /All Tables
-      name: 'tables',
-      component:()=>import('@admin/Tables/Table.vue')
+        path: 'tables', // /All Tables
+        name: 'tables',
+        component: () => import('@admin/Tables/Index.vue'),
       },
       {
-      path: 'tables/create', // Create Tables
-      name: 'add-tables',
-      component:()=>import('@admin/Tables/AddTable.vue')
+        path: 'tables/create', // Create Tables
+        name: 'add-tables',
+        component: () => import('@admin/Tables/AddTable.vue'),
+      },
+      {
+        path: 'tables/:id/edit', // Create Tables
+        name: 'edit-tables',
+        component: () => import('@admin/Tables/AddTable.vue'),
       },
       {
         path: 'posts/add', // /admin
@@ -65,171 +69,94 @@ const routes = [
           title: 'Calendar',
         },
       },
-    {
-      path: '/profile',
-      name: 'Profile',
-      component: () => import('@admin/Users/UserProfile.vue'),
-      meta: {
-        title: 'Profile',
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('@admin/Users/UserProfile.vue'),
+        meta: {
+          title: 'Profile',
+        },
       },
-    },
-    {
-      path: 'users',
-      name: 'Users',
-      component: () => import('@admin/Users/AllUsers.vue'),
-      meta: {
-        title: 'All Users',
+      {
+        path: 'users',
+        name: 'Users',
+        component: () => import('@admin/Users/AllUsers.vue'),
+        meta: {
+          title: 'All Users',
+        },
       },
-    },
-    {
-      path: '/form-elements',
-      name: 'Form Elements',
-      component: () => import('@admin/Forms/FormElements.vue'),
-      meta: {
-        title: 'Form Elements',
+      {
+        path: '/blank',
+        name: 'Blank',
+        component: () => import('@admin/Pages/BlankPage.vue'),
+        meta: {
+          title: 'Blank',
+        },
       },
-    },
-    {
-      path: '/basic-tables',
-      name: 'Basic Tables',
-      component: () => import('@admin/Tables/BasicTables.vue'),
-      meta: {
-        title: 'Basic Tables',
-      },
-    },
-    {
-      path: '/line-chart',
-      name: 'Line Chart',
-      component: () => import('@admin/Chart/LineChart/LineChart.vue'),
-    },
-    {
-      path: '/bar-chart',
-      name: 'Bar Chart',
-      component: () => import('@admin/Chart/BarChart/BarChart.vue'),
-    },
-    {
-      path: '/alerts',
-      name: 'Alerts',
-      component: () => import('@admin/UiElements/Alerts.vue'),
-      meta: {
-        title: 'Alerts',
-      },
-    },
-    {
-      path: '/avatars',
-      name: 'Avatars',
-      component: () => import('@admin/UiElements/Avatars.vue'),
-      meta: {
-        title: 'Avatars',
-      },
-    },
-    {
-      path: '/badge',
-      name: 'Badge',
-      component: () => import('@admin/UiElements/Badges.vue'),
-      meta: {
-        title: 'Badge',
-      },
-    },
-
-    {
-      path: '/buttons',
-      name: 'Buttons',
-      component: () => import('@admin/UiElements/Buttons.vue'),
-      meta: {
-        title: 'Buttons',
-      },
-    },
-
-    {
-      path: '/images',
-      name: 'Images',
-      component: () => import('@admin/UiElements/Images.vue'),
-      meta: {
-        title: 'Images',
-      },
-    },
-    {
-      path: '/videos',
-      name: 'Videos',
-      component: () => import('@admin/UiElements/Videos.vue'),
-      meta: {
-        title: 'Videos',
-      },
-    },
-    {
-      path: '/blank',
-      name: 'Blank',
-      component: () => import('@admin/Pages/BlankPage.vue'),
-      meta: {
-        title: 'Blank',
-      },
-    },
-
 
       // Add other admin routes
     ],
   },
 
   {
-      path: '/error-404',
-      name: '404 Error',
-      component: () => import('@admin/Errors/FourZeroFour.vue'),
-      meta: {
-        title: '404 Error',
-      },
+    path: '/error-404',
+    name: '404 Error',
+    component: () => import('@admin/Errors/FourZeroFour.vue'),
+    meta: {
+      title: '404 Error',
     },
+  },
 
-    {
-      path: '',
-      name: 'Signin',
-      component: () => import('@admin/Auth/Signin.vue'),
-      meta: {
-        title: 'Signin',
-      },
+  {
+    path: '',
+    name: 'Signin',
+    component: () => import('@admin/Auth/Signin.vue'),
+    meta: {
+      title: 'Signin',
     },
-    {
-      path: '/signup',
-      name: 'Signup',
-      component: () => import('@admin/Auth/Signup.vue'),
-      meta: {
-        title: 'Signup',
-      },
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: () => import('@admin/Auth/Signup.vue'),
+    meta: {
+      title: 'Signup',
     },
+  },
   //potentially a login route without any layout
-//   {
-//     path: '/login',
-//     name: 'login',
-//     component: () => import('@/views/auth/LoginView.vue'),
-//   },
+  //   {
+  //     path: '/login',
+  //     name: 'login',
+  //     component: () => import('@/views/auth/LoginView.vue'),
+  //   },
 
-
-{ path: '/:pathMatch(.*)*',
-   name: 'NotFound',
-  component: () => import('@admin/Errors/FourZeroFour.vue')
- } // 404 page
-];
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@admin/Errors/FourZeroFour.vue'),
+  }, // 404 page
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-});
+})
 
 //Navigation Guard for authentication and authorization
 router.beforeEach((to, from, next) => {
-    const authStore = useAuthStore(); // Get the store instance
+  const authStore = useAuthStore() // Get the store instance
 
-   const isAuthenticated =authStore.isAuthenticated /* check if user is logged in (e.g., from Pinia store) */;
-   const isAdmin = authStore.user?.role === 'admin'; // assuming you have a role property
-
+  const isAuthenticated =
+    authStore.isAuthenticated /* check if user is logged in (e.g., from Pinia store) */
+  const isAdmin = authStore.user?.role === 'admin' // assuming you have a role property
 
   if (to.meta.requiresAuth && !isAuthenticated) {
-    next('/login'); // Redirect to login page
-  // } else if (to.meta.requiresAdmin && !isAdmin) {
-  //   next('/'); // Redirect to home or a 403 page
+    next('/login') // Redirect to login page
+    // } else if (to.meta.requiresAdmin && !isAdmin) {
+    //   next('/'); // Redirect to home or a 403 page
   } else {
-    next();
+    next()
   }
-});
+})
 
-export default router;
+export default router
