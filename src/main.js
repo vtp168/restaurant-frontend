@@ -11,6 +11,10 @@ import "vue-toastification/dist/index.css";
 // Initialize auth state after Pinia and router are available
 import { useAuthStore } from './stores/auth';
 
+// material icons
+import materialSymbolsPlugin from '@dbetka/vue-material-symbols';
+import 'material-symbols/index.css'; // Import the Material Symbols CSS
+
 const app= createApp(App);
 // app.use(CKEditor)
 const pinia = createPinia();
@@ -26,5 +30,14 @@ app.use(Toast, {
 
 const authStore = useAuthStore();
 authStore.initializeAuth();
+
+app.use(materialSymbolsPlugin, {
+     // Optional: Configure default options for all icons
+     // defaultType: 'outlined',
+     // defaultWeight: '300',
+     // defaultGrade: 'medium',
+     // defaultSize: 24,
+     // defaultFilled: false,
+   });
 
 app.mount('#app');
