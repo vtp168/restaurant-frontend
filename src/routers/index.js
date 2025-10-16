@@ -109,50 +109,11 @@ const routes = [
         component: () => import('@admin/Users/FormUser.vue'),
       },
       {
-        path: 'tags',
-        name: 'Tags',
-        component: () => import('@admin/Tags/AllTag.vue'),
-        meta: {
-          title: 'Tags',
-        },
-      },
-      {
         path: '/calendar',
         name: 'Calendar',
         component: () => import('@admin/Others/Calendar.vue'),
         meta: {
           title: 'Calendar',
-        },
-      },
-      // {
-      //   path: '/profile',
-      //   name: 'Profile',
-      //   component: () => import('@admin/Users/UserProfile.vue'),
-      //   meta: {
-      //     title: 'Profile',
-      //   },
-      // },
-      // {
-      //   path: 'users',
-      //   name: 'Users',
-      //   component: () => import('@admin/Users/AllUsers.vue'),
-      //   meta: {
-      //     title: 'All Users',
-      //   },
-      // },
-        path: '/profile',
-        name: 'Profile',
-        component: () => import('@admin/Users/UserProfile.vue'),
-        meta: {
-          title: 'Profile',
-        },
-      },
-      {
-        path: 'users',
-        name: 'Users',
-        component: () => import('@admin/Users/AllUsers.vue'),
-        meta: {
-          title: 'All Users',
         },
       },
       {
