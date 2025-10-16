@@ -38,12 +38,12 @@ import 'vue-loading-overlay/dist/css/index.css';
 import { useToast } from 'vue-toastification'
 import Loading from 'vue-loading-overlay'
 import UserModal from "./UserModal.vue";
-import UserTable from "./UserTable.vue";
+import UserTable from "./UserTable_backup.vue";
 
 const currentPageTitle = ref("All Categories");
 const isLoading = ref(false)
 const users= ref([]);
-const toast = useToast() // toast noticaion 
+const toast = useToast() // toast noticaion
 const isModalOpen = ref(false)
 const modalMode = ref('add') // or 'edit'
 const selectedUser = ref(null)
