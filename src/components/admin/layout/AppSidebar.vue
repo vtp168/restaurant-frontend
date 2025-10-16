@@ -277,7 +277,8 @@ const menuGroups = [
         name: "Setting",
         subItems: [
           { name: "Categories", path: "/admin/categories", pro: false },
-          { name: "Tags", path: "/admin/tags", pro: false }
+          { name: "Tags", path: "/admin/tags", pro: false },
+          { name: "Users", path: "/admin/users", pro: false }
         ],
       },
       {

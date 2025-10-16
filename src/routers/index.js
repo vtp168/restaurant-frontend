@@ -48,10 +48,39 @@ const routes = [
       {
         path: 'categories',
         name: 'Categories',
-        component: () => import('@admin/Category/AllCategory.vue'),
+        component: () => import('@admin/Category/Index.vue'),
         meta: {
           title: 'Calendar',
         },
+      },
+      {
+        path: 'categories/:id/edit', // Create Tables
+        name: 'edit-categories',
+        component: () => import('@admin/Category/FormCategory.vue'),
+      },
+      {
+        path: 'categories/create', // Create Tables
+        name: 'create-categories',
+        component: () => import('@admin/Category/FormCategory.vue'),
+      },
+      //-----User
+          {
+        path: 'users',
+        name: 'Users',
+        component: () => import('@admin/Users/Index.vue'),
+        meta: {
+          title: 'Calendar',
+        },
+      },
+      {
+        path: 'users/:id/edit', // Create Users
+        name: 'edit-users',
+        component: () => import('@admin/Users/FormUser.vue'),
+      },
+      {
+        path: 'users/create', // Create Users
+        name: 'create-users',
+        component: () => import('@admin/Users/FormUser.vue'),
       },
       {
         path: 'tags',
@@ -69,22 +98,22 @@ const routes = [
           title: 'Calendar',
         },
       },
-      {
-        path: '/profile',
-        name: 'Profile',
-        component: () => import('@admin/Users/UserProfile.vue'),
-        meta: {
-          title: 'Profile',
-        },
-      },
-      {
-        path: 'users',
-        name: 'Users',
-        component: () => import('@admin/Users/AllUsers.vue'),
-        meta: {
-          title: 'All Users',
-        },
-      },
+      // {
+      //   path: '/profile',
+      //   name: 'Profile',
+      //   component: () => import('@admin/Users/UserProfile.vue'),
+      //   meta: {
+      //     title: 'Profile',
+      //   },
+      // },
+      // {
+      //   path: 'users',
+      //   name: 'Users',
+      //   component: () => import('@admin/Users/AllUsers.vue'),
+      //   meta: {
+      //     title: 'All Users',
+      //   },
+      // },
       {
         path: '/blank',
         name: 'Blank',
