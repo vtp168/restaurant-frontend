@@ -15,15 +15,41 @@ const routes = [
         component: () => import('@admin/Ecommerce.vue'),
       },
       {
-        path: 'orders', // /orders
-        name: 'orders',
+        path: 'orders/pos', // /orders
+        name: 'orders-pos',
         //component: () => import('@admin/Posts/AllPost.vue'),
-        component: () => import('@admin/Orders/Orders.vue'),
+        component: () => import('@admin/Orders/Pos/PosForm.vue'),
+      },
+      {
+        path: 'orders', // /orders
+        name: 'orders-index',
+        //component: () => import('@admin/Posts/AllPost.vue'),
+        component: () => import('@admin/Orders/All/OrderIndex.vue'),
+      },
+      {
+        path: 'tables/status', // /All Tables
+        name: 'tables-status',
+        component: () => import('@admin/Tables/TableStatus.vue'),
       },
       {
         path: 'tables', // /All Tables
         name: 'tables',
         component: () => import('@admin/Tables/Index.vue'),
+      },
+      {
+        path: 'menus', // /All Tables
+        name: 'menus',
+        component: () => import('@admin/Menus/MenuIndex.vue'),
+      },
+      {
+        path: 'menus/create', // /All Tables
+        name: 'create-menu',
+        component: () => import('@admin/Menus/MenuForm.vue'),
+      },
+      {
+        path: 'menus/:id/edit', // /All Tables
+        name: 'edit-menu',
+        component: () => import('@admin/Menus/UpdateForm.vue'),
       },
       {
         path: 'tables/create', // Create Tables
@@ -49,22 +75,6 @@ const routes = [
         path: 'categories',
         name: 'Categories',
         component: () => import('@admin/Category/AllCategory.vue'),
-        meta: {
-          title: 'Calendar',
-        },
-      },
-      {
-        path: 'tags',
-        name: 'Tags',
-        component: () => import('@admin/Tags/AllTag.vue'),
-        meta: {
-          title: 'Tags',
-        },
-      },
-      {
-        path: '/calendar',
-        name: 'Calendar',
-        component: () => import('@admin/Others/Calendar.vue'),
         meta: {
           title: 'Calendar',
         },
