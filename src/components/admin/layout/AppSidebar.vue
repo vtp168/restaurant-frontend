@@ -253,7 +253,7 @@ const menuGroups = [
         name: "Order Management",
         subItems: [
           { name: "All Orders", path: "/admin/orders", pro: false },
-          { name: "Create Orders", path: "order/create", pro: false }
+          { name: "Create Orders", path: "/admin/orders/pos", pro: false }
         ],
       },
       {
