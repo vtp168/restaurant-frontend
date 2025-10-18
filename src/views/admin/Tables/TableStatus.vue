@@ -18,22 +18,43 @@
         </div>
 
         <!-- Tables Grid -->
-        <div class="grid grid-cols-6 gap-4">
+        <div class="grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-1 gap-4">
           <div
             v-for="table in tables"
             :key="table.id"
             class="flex flex-col items-center justify-center h-40 rounded-lg text-center cursor-pointer transition hover:scale-105"
             :class="statusColor(table.status)"
           >
-            <div class="font-semibold text-lg">{{ table.name }}</div>
+            <router-link
+              v-if="table.status !== 'free'"
+              :to="`/admin/order/table/${table._id}`"
+              class="w-full h-full flex flex-col items-center justify-center"
+            >
+              <div class="font-semibold text-lg">{{ table.name }}</div>
 
-            <span class="material-symbols-outlined" style="font-size: 64px">dine_lamp</span>
-            <div class="text-md items-center flex space-x-1 mt-2">
-              <span class="material-symbols-outlined">groups_2</span>
-              <span>
-                {{ table.capacity }}
-              </span>
-            </div>
+              <span class="material-symbols-outlined" style="font-size: 64px">dine_lamp</span>
+              <div class="text-md items-center flex space-x-1 mt-2">
+                <span class="material-symbols-outlined">groups_2</span>
+                <span>
+                  {{ table.capacity }}
+                </span>
+              </div>
+            </router-link>
+            <router-link
+              v-else
+              :to="`/admin/pos/table/${table._id}`"
+              class="w-full h-full flex flex-col items-center justify-center"
+            >
+              <div class="font-semibold text-lg">{{ table.name }}</div>
+
+              <span class="material-symbols-outlined" style="font-size: 64px">dine_lamp</span>
+              <div class="text-md items-center flex space-x-1 mt-2">
+                <span class="material-symbols-outlined">groups_2</span>
+                <span>
+                  {{ table.capacity }}
+                </span>
+              </div>
+            </router-link>
           </div>
         </div>
       </ComponentCard>

@@ -110,6 +110,7 @@ const handleSubmit = async () => {
       )
       isLoading.value = false
       toast.success('✅ Post Updated successfully!')
+      router.push('/admin/tables')
     } catch (err) {
       toast.error('❌ Failed to create post.')
       isLoading.value = false
@@ -131,6 +132,7 @@ const handleSubmit = async () => {
       )
       isLoading.value = false
       toast.success('✅ Table created successfully!')
+      router.push('/admin/tables')
     } catch (err) {
       isLoading.value = false
       toast.error('❌ Failed to create table.')

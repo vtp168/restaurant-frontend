@@ -26,6 +26,31 @@ const routes = [
         //component: () => import('@admin/Posts/AllPost.vue'),
         component: () => import('@admin/Orders/All/OrderIndex.vue'),
       },
+
+      {
+        path: 'invoices', // /orders
+        name: 'invoice-index',
+        //component: () => import('@admin/Posts/AllPost.vue'),
+        component: () => import('@admin/Invoices/All/InvoiceIndex.vue'),
+      },
+      {
+        path: 'invoices/print/:id', // /orders
+        name: 'invoice-print',
+        //component: () => import('@admin/Posts/AllPost.vue'),
+        component: () => import('@admin/Invoices/All/InvoicePrint.vue'),
+      },
+      // Pos by Table
+      {
+        path: 'pos/table/:id', // /admin
+        name: 'pos-by-table',
+        component: () => import('@admin/Orders/Pos/PosForm.vue'),
+      },
+      // Order by Table
+      {
+        path: 'order/table/:id', // /admin
+        name: 'order-by-table',
+        component: () => import('@admin/Orders/PosByTable/PosForm.vue'),
+      },
       {
         path: 'tables/status', // /All Tables
         name: 'tables-status',
@@ -61,11 +86,7 @@ const routes = [
         name: 'edit-tables',
         component: () => import('@admin/Tables/AddTable.vue'),
       },
-      {
-        path: 'posts/add', // /admin
-        name: 'add-posts',
-        component: () => import('@admin/Posts/AddPost.vue'),
-      },
+
       {
         path: '/posts/:id/edit',
         name: 'PostEdit',
@@ -90,7 +111,7 @@ const routes = [
         component: () => import('@admin/Category/FormCategory.vue'),
       },
       //-----User
-          {
+      {
         path: 'users',
         name: 'Users',
         component: () => import('@admin/Users/Index.vue'),

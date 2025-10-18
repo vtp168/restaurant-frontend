@@ -19,13 +19,10 @@
               <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Date</p>
             </th>
             <th class="px-5 py-3 text-left sm:px-6">
-              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Services By</p>
+              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Cashir By</p>
             </th>
             <th class="px-5 py-3 text-left sm:px-6">
               <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Total Price</p>
-            </th>
-            <th class="px-5 py-3 text-left sm:px-6">
-              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Status</p>
             </th>
             <th class="px-5 py-3 text-left sm:px-6">
               <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Action</p>
@@ -34,7 +31,7 @@
         </thead>
         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
           <tr
-            v-for="(order, index) in orders"
+            v-for="(invoice, index) in invoices"
             :key="index"
             class="border-t border-gray-100 dark:border-gray-800"
           >
@@ -44,12 +41,12 @@
               </div>
             </td>
             <td class="px-5 py-4 sm:px-6">
-              <div class="flex items-center gap-3">#{{ order.orderNo }}</div>
+              <div class="flex items-center gap-3">#{{ invoice.invoiceNo }}</div>
             </td>
             <td class="px-5 py-4 sm:px-6">
               <div>
                 <span class="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                  {{ order.tableId?.name || 'No Table' }}
+                  {{ invoice.tableId?.name || 'No Table' }}
                 </span>
               </div>
             </td>
@@ -57,41 +54,32 @@
             <td class="px-5 py-4 sm:px-6">
               <div>
                 <span class="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                  {{ new Date(order.createdAt).toLocaleDateString() }}
+                  {{ new Date(invoice.createdAt).toLocaleDateString() }}
                 </span>
               </div>
             </td>
             <td class="px-5 py-4 sm:px-6">
               <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                {{ order.createdBy.fullname ?? 'No Name' }}
+                {{ invoice.paidBy.fullname ?? 'No Name' }}
               </p>
             </td>
             <td class="px-5 py-4 sm:px-6">
-              <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                ${{ getTotalPrice(order).toFixed(2) }}
-              </p>
-            </td>
-            <td class="px-5 py-4 sm:px-6">
-              <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                <span v-if="order.status=='pending'" class="rounded-full px-2 py-0.5 text-theme-xs font-medium bg-orange-50 text-orange-600 dark:bg-orange-500/15 dark:text-orange-500">{{ order.status }}</span>
-                <span v-if="order.status=='paid'" class="rounded-full px-2 py-0.5 text-theme-xs font-medium bg-green-50 text-green-600 dark:bg-green-500/15 dark:text-green-500">{{ order.status }}</span>
-
-              </p>
+              <p class="text-gray-500 text-theme-sm dark:text-gray-400">${{ invoice.total }}</p>
             </td>
 
             <td class="px-4 py-2 space-x-2">
               <button
-                @click="editData(order._id)"
+                @click="printData(invoice._id)"
                 class="bg-blue-500 text-white p-1 rounded hover:bg-blue-600 text-sm"
               >
                 <PencilBoxOutlineIcon size="24" />
               </button>
-              <button
-                @click="deleteData(order._id)"
+              <!-- <button
+                @click="deleteData(invoice._id)"
                 class="bg-red-500 text-white rounded hover:bg-red-600 p-1 text-sm"
               >
                 <DeleteOutlineIcon />
-              </button>
+              </button> -->
             </td>
           </tr>
         </tbody>
@@ -113,15 +101,12 @@ const router = useRouter()
 const emit = defineEmits(['refresh']) // to call function in parent component
 
 defineProps({
-  orders: {
+  invoices: {
     type: Array,
     default: () => [],
   },
 })
 
-function editData(orderId) {
-  router.push({ name: 'edit-menu', params: { id: orderId } })
-}
 
 const deleteData = async (id) => {
   if (confirm('Are you sure you want to delete this order?')) {
@@ -138,11 +123,8 @@ const deleteData = async (id) => {
   }
 }
 
-function getTotalPrice(order) {
-  if (!order.items || order.items.length === 0) return 0
-  return order.items.reduce((sum, item) => {
-    return sum + item.price * (item.quantity || 1)
-  }, 0)
+const printData = (id) => {
+  router.push({ name: 'invoice-print', params: { id } })
 }
 </script>
 

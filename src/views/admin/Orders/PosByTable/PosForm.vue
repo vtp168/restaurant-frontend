@@ -101,8 +101,6 @@ import CartSection from './CartSection.vue'
 import CartMenu from './CardMenu.vue'
 import Swal from 'sweetalert2'
 import { useRoute, useRouter } from 'vue-router'
-
-
 const apiUrl = import.meta.env.VITE_API_URL
 
 const categories = ref([])
@@ -114,18 +112,13 @@ const cart = ref([])
 const selectedTable = ref('')
 const route = useRoute()
 const router = useRouter()
-const isHavingTable = computed(() => !!route.params.id)
+const orderId = ref('')
+const paymentMethod = ref('cash')
 
 // Fetch categories and menu
 const fetchCategories = async () => {
   const res = await axios.get(`${apiUrl}/categories`)
   categories.value = res.data
-}
-
-// Fetch categories and menu
-const fetchTables = async () => {
-  const res = await axios.get(`${apiUrl}/tables/status/free`)
-  tables.value = res.data
 }
 
 const fetchMenu = async () => {
@@ -147,12 +140,47 @@ const selectCategory = async (categoryId) => {
   }
 }
 
-const addToCart = (item) => {
+// 🟢 Fetch single table & order info
+const getOrderData = async () => {
+  try {
+    const res = await axios.get(`${apiUrl}/orders/table/${route.params.id}`)
+    const order = Array.isArray(res.data) ? res.data[0] : res.data
+
+    if (!order) return
+
+    orderId.value = order._id
+
+    // ✅ Convert single table to array
+    tables.value = [
+      {
+        _id: order.tableId._id,
+        name: order.tableId.name,
+      },
+    ]
+    // ✅ Pre-select table
+    selectedTable.value = order.tableId._id
+
+    // ✅ Load cart from existing order
+    cart.value = order.items.map((item) => ({
+      _id: item.menuItemId._id,
+      menuItemId: item.menuItemId._id,
+      name: item.menuItemId.name,
+      price: item.price,
+      size: item.size || null,
+      quantity: item.quantity,
+    }))
+  } catch (err) {
+    console.error('Failed to fetch order data:', err)
+  }
+}
+
+const addToCart = async (item) => {
   const sizeLabel = item.size || null
   const existing = cart.value.find((i) => i._id === item._id && i.size === sizeLabel)
 
   if (existing) {
-    existing.quantity++
+    let index = cart.value.indexOf(existing)
+    increaseQty(index)
   } else {
     cart.value.push({
       _id: item._id,
@@ -162,23 +190,99 @@ const addToCart = (item) => {
       size: sizeLabel,
       quantity: 1,
     })
+
+    await axios.post(`${apiUrl}/orders/${orderId.value}/item`, {
+      items: [
+        {
+          menuItemId: item._id,
+          price: item.price,
+          size: sizeLabel,
+          quantity: 1,
+        },
+      ],
+    })
   }
 }
 
-const increaseQty = (index) => {
+const increaseQty = async (index) => {
+  console.log('Increase quantity for index:', index)
   cart.value[index].quantity++
+  let qty = cart.value[index].quantity
+  let itemId = cart.value[index]._id
+  try {
+    const res = await axios.patch(`${apiUrl}/orders/changeQty/${orderId.value}/${itemId}`, {
+      quantity: qty,
+    })
+    if (res.status === 200 || res.status === 201) {
+      console.log('Quantity updated successfully')
+    } else {
+      throw new Error('Failed to update quantity')
+    }
+  } catch (error) {
+    console.error('Failed to update quantity:', error)
+  }
 }
 
-const decreaseQty = (index) => {
+const decreaseQty = async (index) => {
   if (cart.value[index].quantity > 1) {
     cart.value[index].quantity--
-  } else {
-    cart.value.splice(index, 1)
+    let qty = cart.value[index].quantity
+    let itemId = cart.value[index]._id
+    try {
+      const res = await axios.patch(`${apiUrl}/orders/changeQty/${orderId.value}/${itemId}`, {
+        quantity: qty,
+      })
+      if (res.status === 200 || res.status === 201) {
+        console.log('Quantity updated successfully')
+      } else {
+        throw new Error('Failed to update quantity')
+      }
+    } catch (error) {
+      console.error('Failed to update quantity:', error)
+    }
   }
 }
 
-const removeFromCart = (index) => {
-  cart.value.splice(index, 1)
+const removeFromCart = async (index) => {
+  // 🟢 Confirm Dialog បង្ហាញជា table name
+  const confirm = await Swal.fire({
+    title: 'Delete Items?',
+    html: `<b>Are you sure to delete this item from cart?</b>`,
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, Delete item',
+    cancelButtonText: 'Cancel',
+    confirmButtonColor: '#16a34a',
+    cancelButtonColor: '#d33',
+  })
+
+  if (confirm.isConfirmed) {
+    try {
+      let itemId = cart.value[index]._id
+      const res = await axios.delete(`${apiUrl}/orders/${orderId.value}/item/${itemId}`)
+
+      if (res.status === 200 || res.status === 201) {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'success',
+          title: 'Order Item !',
+          showConfirmButton: false,
+          timer: 2500,
+        })
+
+        cart.value.splice(index, 1)
+      } else {
+        throw new Error('Failed to place order')
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Failed to place order. Please try again.',
+      })
+    }
+  }
 }
 
 const total = computed(() => cart.value.reduce((sum, i) => sum + i.price * i.quantity, 0))
@@ -218,7 +322,7 @@ const placeOrder = async () => {
     html: `<b>Table:</b> ${tableObj.name}<br><b>Total:</b> $${total.value.toFixed(2)}`,
     icon: 'question',
     showCancelButton: true,
-    confirmButtonText: 'Yes, place order',
+    confirmButtonText: 'Yes, Checkout order',
     cancelButtonText: 'Cancel',
     confirmButtonColor: '#16a34a',
     cancelButtonColor: '#d33',
@@ -226,8 +330,8 @@ const placeOrder = async () => {
 
   if (confirm.isConfirmed) {
     try {
-      const res = await axios.post(`${apiUrl}/orders/${tableId}`, {
-        items: cart.value,
+      const res = await axios.post(`${apiUrl}/orders/${orderId.value}/checkout`, {
+        paymentMethod: paymentMethod.value,
       })
 
       if (res.status === 200 || res.status === 201) {
@@ -235,15 +339,14 @@ const placeOrder = async () => {
           toast: true,
           position: 'top-end',
           icon: 'success',
-          title: 'Order placed successfully!',
+          title: 'Order checkout successfully!',
           showConfirmButton: false,
           timer: 2500,
         })
 
-        if(isHavingTable.value){
-          router.push(`/admin/tables/status`)
-        }
+        const invoiceId = res.data.invoice._id
 
+        router.push(`/admin/invoices/print/${invoiceId}`)
         cart.value = []
         selectedTable.value = ''
       } else {
@@ -259,12 +362,9 @@ const placeOrder = async () => {
   }
 }
 
-onMounted(() => {
-  fetchCategories()
-  fetchMenu()
-  fetchTables()
-  if (isHavingTable.value) {
-    selectedTable.value = route.params.id
-  }
+onMounted(async () => {
+  await fetchCategories()
+  await fetchMenu()
+  await getOrderData()
 })
 </script>
