@@ -12,7 +12,7 @@ const routes = [
       {
         path: 'dashboard', // /admin
         name: 'dashboard',
-        component: () => import('@admin/Ecommerce.vue'),
+        component: () => import('@admin/Dashboard.vue'),
       },
       {
         path: 'orders/pos', // /orders
@@ -88,9 +88,9 @@ const routes = [
       },
 
       {
-        path: '/posts/:id/edit',
-        name: 'PostEdit',
-        component: () => import('@admin/Posts/UpdatePost.vue'),
+        path: 'profile/:userId',
+        name: 'Profile',
+        component: () => import('@admin/Users/UserProfile.vue'),
       },
       {
         path: 'categories',

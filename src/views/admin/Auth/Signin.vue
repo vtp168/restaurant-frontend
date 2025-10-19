@@ -38,7 +38,7 @@
                   Sign In
                 </h1>
                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                  Enter your email and password to sign in!
+                  Enter your username and password to sign in!
                 </p>
               </div>
               <div>
@@ -54,10 +54,10 @@
                     <!-- Email -->
                     <div>
                       <label
-                        for="email"
+                        for="username"
                         class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400"
                       >
-                        Email<span class="text-error-500">*</span>
+                        Username<span class="text-error-500">*</span>
                       </label>
                       <input
                         v-model="username"
@@ -207,11 +207,12 @@
             <common-grid-shape />
             <div class="flex flex-col items-center max-w-xs">
               <router-link to="/" class="block mb-4">
-                <img width="{231}" height="{48}" src="/images/logo/auth-logo.svg" alt="Logo" />
+                <img
+                  src="/images/logo/logo.png"
+                  alt="Logo"
+                  class="h-full w-96 rounded object-cover"
+                />
               </router-link>
-              <p class="text-center text-gray-400 dark:text-white/60">
-                Free and Open-Source Tailwind CSS Admin Dashboard Template
-              </p>
             </div>
           </div>
         </div>

@@ -1,0 +1,31 @@
+services:
+  restaurant-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/app/src
+      - .env:/app/.env
+    ports:
+      - 7000:7000
+    #scale: 3 # Scale to 3 instances // number of replicas server
+  # file-server:
+  #   image: minio/minio
+  #   container_name: cadt-file-server
+  #   ports:
+  #     - 9000:9000
+  #     - 9001:9001
+  #   environment:
+  #     - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+  #     - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+  #   volumes:
+  #     - minio-data:/data
+  #   command: server /data --console-address ":9001"
+  # cadt-redis-cache:
+  #   image: redis:8.2.0-alpine
+  #   container_name: cadt-redis-cache
+  #   ports:
+  #     - 6379:6379
+volumes:
+  restaurant-frontend-data:
+  #minio-data:

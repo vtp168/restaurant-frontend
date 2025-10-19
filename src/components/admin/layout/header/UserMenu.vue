@@ -5,7 +5,7 @@
       @click.prevent="toggleDropdown"
     >
       <span class="mr-3 overflow-hidden rounded-full h-11 w-11">
-        <img src="/images/user/owner.jpg" alt="User" />
+        <img src="/images/user/default-avatar.png" alt="User" />
       </span>
 
       <span class="block mr-1 font-medium text-theme-sm uppercase">{{ authStore.user.name }} </span>
@@ -66,14 +66,15 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
+const userId = authStore.user._id
 
 const dropdownOpen = ref(false)
 const dropdownRef = ref(null)
 
 const menuItems = [
-  { href: '/profile', icon: UserCircleIcon, text: 'Edit profile' },
-  { href: '/chat', icon: SettingsIcon, text: 'Account settings' },
-  { href: '/profile', icon: InfoCircleIcon, text: 'Support' },
+  { href: `/admin/profile/${userId}`, icon: UserCircleIcon, text: 'Edit profile' },
+  // { href: '/chat', icon: SettingsIcon, text: 'Account settings' },
+  // { href: '/profile', icon: InfoCircleIcon, text: 'Support' },
 ]
 
 const toggleDropdown = () => {
@@ -103,7 +104,6 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
-
 
 //singout here
 const handleLogout = () => {
