@@ -73,9 +73,16 @@
             </td>
             <td class="px-5 py-4 sm:px-6">
               <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                <span v-if="order.status=='pending'" class="rounded-full px-2 py-0.5 text-theme-xs font-medium bg-orange-50 text-orange-600 dark:bg-orange-500/15 dark:text-orange-500">{{ order.status }}</span>
-                <span v-if="order.status=='paid'" class="rounded-full px-2 py-0.5 text-theme-xs font-medium bg-green-50 text-green-600 dark:bg-green-500/15 dark:text-green-500">{{ order.status }}</span>
-
+                <span
+                  v-if="order.status == 'pending'"
+                  class="rounded-full px-2 py-0.5 text-theme-xs font-medium bg-orange-50 text-orange-600 dark:bg-orange-500/15 dark:text-orange-500"
+                  >{{ order.status }}</span
+                >
+                <span
+                  v-if="order.status == 'paid'"
+                  class="rounded-full px-2 py-0.5 text-theme-xs font-medium bg-green-50 text-green-600 dark:bg-green-500/15 dark:text-green-500"
+                  >{{ order.status }}</span
+                >
               </p>
             </td>
 
@@ -87,6 +94,7 @@
                 <PencilBoxOutlineIcon size="24" />
               </button>
               <button
+                v-if="order.status != 'paid'"
                 @click="deleteData(order._id)"
                 class="bg-red-500 text-white rounded hover:bg-red-600 p-1 text-sm"
               >
@@ -120,7 +128,7 @@ defineProps({
 })
 
 function editData(orderId) {
-  router.push({ name: 'edit-menu', params: { id: orderId } })
+  router.push({ name: 'edit-order', params: { id: orderId } })
 }
 
 const deleteData = async (id) => {

@@ -26,6 +26,12 @@ const routes = [
         //component: () => import('@admin/Posts/AllPost.vue'),
         component: () => import('@admin/Orders/All/OrderIndex.vue'),
       },
+      {
+        path: 'orders/:id/edit', // /orders
+        name: 'edit-order',
+        //component: () => import('@admin/Posts/AllPost.vue'),
+        component: () => import('@admin/Orders/PosById/PosForm.vue'),
+      },
 
       {
         path: 'invoices', // /orders

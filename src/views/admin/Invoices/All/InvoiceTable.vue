@@ -54,7 +54,7 @@
             <td class="px-5 py-4 sm:px-6">
               <div>
                 <span class="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                  {{ new Date(invoice.createdAt).toLocaleDateString() }}
+                  {{ new Date(invoice.paidAt).toLocaleDateString() }}
                 </span>
               </div>
             </td>
@@ -72,7 +72,7 @@
                 @click="printData(invoice._id)"
                 class="bg-blue-500 text-white p-1 rounded hover:bg-blue-600 text-sm"
               >
-                <PencilBoxOutlineIcon size="24" />
+                <PrinterIcon size="24" />
               </button>
               <!-- <button
                 @click="deleteData(invoice._id)"
@@ -94,6 +94,8 @@ import axios from 'axios'
 import { useToast } from 'vue-toastification'
 import PencilBoxOutlineIcon from 'vue-material-design-icons/PencilBoxOutline.vue'
 import DeleteOutlineIcon from 'vue-material-design-icons/DeleteOutline.vue'
+import PrinterIcon from 'vue-material-design-icons/Printer.vue'
+
 
 const toast = useToast()
 
@@ -106,7 +108,6 @@ defineProps({
     default: () => [],
   },
 })
-
 
 const deleteData = async (id) => {
   if (confirm('Are you sure you want to delete this order?')) {

@@ -30,7 +30,8 @@
           <div
             v-for="order in summary.recentOrders"
             :key="order._id"
-            class="flex justify-between items-center bg-white rounded-xl p-4 mb-4 shadow"
+            class="flex justify-between items-center bg-white rounded-xl p-4 mb-4 shadow cursor-pointer hover:shadow-lg"
+            @click="$router.push(`/admin/orders/${order._id}/edit`)"
           >
             <div class="flex items-center gap-3">
               <img
@@ -40,7 +41,8 @@
               />
               <div>
                 <h4 class="font-semibold text-gray-800">
-                  {{ order.createdBy?.fullname || 'Guest' }}
+                  Table {{ order.tableId?.name || 'No Table' }}
+                  <span class="bg-red text-red-500 text-sm">(#{{ order.orderNo }})</span>
                 </h4>
                 <p class="text-gray-500 text-sm">
                   {{ new Date(order.createdAt).toLocaleDateString() }}
@@ -83,6 +85,7 @@ import AdminLayout from '@/components/admin/layout/AdminLayout.vue'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useAuthStore } from '@/stores/auth'
+import { Table } from 'lucide-vue-next'
 
 const apiUrl = import.meta.env.VITE_API_URL
 const authStore = useAuthStore()

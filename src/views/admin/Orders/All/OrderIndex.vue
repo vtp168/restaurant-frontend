@@ -85,13 +85,12 @@ onMounted(() => {
 const fetchData = async () => {
   try {
     isLoading.value = true
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/orders`, {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/orders/pending/oders`, {
       params: {
         page: page.value,
         limit: limit.value,
       },
     })
-
 
     // suppose API response is like:
     // { docs: [], page: 1, totalPages: 5, hasNextPage: true, hasPrevPage: false }
