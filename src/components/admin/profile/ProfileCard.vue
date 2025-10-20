@@ -4,8 +4,10 @@
     <div class="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
       <div class="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
         <div class="flex flex-col items-center w-full gap-6 xl:flex-row">
-          <div class="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800">
-            <img src="/images/user/owner.jpg" alt="user" />
+          <div
+            class="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800"
+          >
+            <img src="/images/user/default-avatar.png" alt="user" />
           </div>
           <div>
             <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 capitalize">
@@ -14,9 +16,7 @@
           </div>
         </div>
 
-        <button @click="openModal" class="edit-button flex items-center gap-2">
-          ✎ Edit
-        </button>
+        <button @click="openModal" class="edit-button flex items-center gap-2">✎ Edit</button>
       </div>
     </div>
 
@@ -31,9 +31,7 @@
             ✕
           </button>
 
-          <h4 class="mb-4 text-2xl font-semibold text-gray-800 dark:text-white/90">
-            Edit Profile
-          </h4>
+          <h4 class="mb-4 text-2xl font-semibold text-gray-800 dark:text-white/90">Edit Profile</h4>
 
           <form @submit.prevent="saveProfile" class="space-y-5">
             <!-- Full Name -->
@@ -59,7 +57,9 @@
                 type="password"
                 class="h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
               />
-              <p v-if="errors.oldPassword" class="text-sm text-red-500 mt-1">{{ errors.oldPassword }}</p>
+              <p v-if="errors.oldPassword" class="text-sm text-red-500 mt-1">
+                {{ errors.oldPassword }}
+              </p>
             </div>
 
             <!-- New Password -->
@@ -85,7 +85,9 @@
                 type="password"
                 class="h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
               />
-              <p v-if="errors.confirmPassword" class="text-sm text-red-500 mt-1">{{ errors.confirmPassword }}</p>
+              <p v-if="errors.confirmPassword" class="text-sm text-red-500 mt-1">
+                {{ errors.confirmPassword }}
+              </p>
             </div>
 
             <div class="flex justify-end gap-3">
@@ -114,9 +116,11 @@
 import { computed, onMounted, ref } from 'vue'
 import Modal from './Modal.vue'
 import axios from 'axios'
+import { useToast } from 'vue-toastification'
 
 const isProfileInfoModal = ref(false)
 const userId = ref('')
+const toast = useToast() // toast noticaion
 
 const props = defineProps({
   userInfo: Object,
@@ -134,6 +138,7 @@ const form = ref({
 })
 
 const errors = ref({})
+const apiUrl = import.meta.env.VITE_API_URL
 
 const validateForm = () => {
   errors.value = {}
@@ -141,7 +146,8 @@ const validateForm = () => {
   if (!form.value.fullname.trim()) errors.value.fullname = 'Full name is required.'
   if (!form.value.oldPassword.trim()) errors.value.oldPassword = 'Old password is required.'
   if (!form.value.password.trim()) errors.value.password = 'New password is required.'
-  else if (form.value.password.length < 6) errors.value.password = 'Password must be at least 6 characters.'
+  else if (form.value.password.length < 6)
+    errors.value.password = 'Password must be at least 6 characters.'
   if (form.value.confirmPassword !== form.value.password)
     errors.value.confirmPassword = 'Passwords do not match.'
 
@@ -161,10 +167,17 @@ const saveProfile = async () => {
   if (!validateForm()) return
 
   try {
-    const res = await axios.patch('/api/users/update/'+userId.value, form.value)
-    console.log('Profile updated:', res.data)
+    const res = await axios.patch(`${apiUrl}/users/update/${userId.value}/profile`, form.value)
+    //console.log('Profile updated:', res.data)
+    if (res.status === 200) {
+      toast.success('✅ Profile Updated successfully!')
+    } else {
+      toast.error(res.data || '❌ Failed to update profile.')
+    }
     isProfileInfoModal.value = false
   } catch (err) {
+    toast.error('❌ Failed to update profile. Old password may be incorrect.')
+    isProfileInfoModal.value = false
     console.error('Error updating profile:', err)
   }
 }

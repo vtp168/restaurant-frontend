@@ -64,18 +64,17 @@ import ComponentCard from '@/components/admin/common/ComponentCard.vue'
 import InvoiceTable from './InvoiceTable.vue'
 
 const isLoading = ref(false)
-const currentPageTitle = ref('All Orders')
+const currentPageTitle = ref('All Invoices')
 
 const invoices = ref([])
 const page = ref(1)
 const limit = ref(10)
 
 const pagination = ref({
-  page: 1,
+  currentPage: 1,
   totalPages: 1,
   hasNextPage: false,
   hasPrevPage: false,
-  limit: 10,
 })
 
 onMounted(() => {
@@ -86,16 +85,17 @@ const fetchData = async () => {
   try {
     isLoading.value = true
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/invoices`, {
-      params: {
-        page: page.value,
-        limit: limit.value,
-      },
+      params: { page: page.value, limit: limit.value },
     })
 
-    // suppose API response is like:
-    // { docs: [], page: 1, totalPages: 5, hasNextPage: true, hasPrevPage: false }
+    const data = res.data
+    invoices.value = data.invoices
 
-    invoices.value = res.data
+    pagination.value.currentPage = data.currentPage
+    pagination.value.totalPages = data.totalPages
+    pagination.value.hasNextPage = data.currentPage < data.totalPages
+    pagination.value.hasPrevPage = data.currentPage > 1
+
   } catch (err) {
     console.error(err)
   } finally {
@@ -122,3 +122,4 @@ const onLimitChange = () => {
   fetchData()
 }
 </script>
+
