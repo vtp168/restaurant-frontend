@@ -6,13 +6,7 @@
       <ComponentCard title="">
         <template #header>
           <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-lg">Order List</h2>
-            <router-link
-              to="/admin/orders/#/pos"
-              class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-            >
-              New Order
-            </router-link>
+            <h2 class="font-semibold text-lg">Orders</h2>
           </div>
         </template>
 

@@ -12,20 +12,23 @@
           class="rounded-full px-4 py-2 w-72 md:w-96 text-gray-800 focus:outline-none"
         />
       </div>
-      <router-link to="/admin/orders/status/pending">
-        <button class="text-white">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-          </svg>
-        </button>
-      </router-link>
+      <button @click="$router.back()" class="text-white">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+        stroke="currentColor"
+        class="w-6 h-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15 19l-7-7 7-7"
+        />
+      </svg>
+      Back
+    </button>
     </header>
 
     <!-- Category Pills -->
